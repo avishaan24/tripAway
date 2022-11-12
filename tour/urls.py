@@ -11,6 +11,7 @@ urlpatterns = [
     path('profile/',views.profile,name='profile'),
     path('package/<int:pid>/passenger',views.passenger,name='passenger'),
     path('packageview/<int:pid>',views.packageview,name='packageview'),
-    path('payment/',views.payment_initial,name='payment')
+    path('payment/',views.payment_initial,name='payment'),
+    path('handlerequest/',views.handlerequest,name='handlerequest')
     # path('package/<int:pid>',views.packagebook,name='packagebook'),
 ]
