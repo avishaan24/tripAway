@@ -6,6 +6,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from .models import *
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from .paytm import Checksum
+MERCHANT_KEY = "merchantkey";
 from datetime import datetime
 import datetime
 
@@ -101,7 +104,6 @@ def passenger(request,pid):
 #     else:
 #         return redirect('index')
 
-
         
 def payment_initial(request):
     if request.method=="POST" and request.user.is_authenticated:
@@ -113,8 +115,37 @@ def payment_initial(request):
             p1.save()
             # data.append({'name': request.POST['name'+str(i)], 'aadhar': request.POST['aadhar'+str(i)], 'gender': request.POST['gender'+str(i)], 'age': request.POST['age'+str(i)]})
         # print(data)
-        return render(request, 'tour/payment.html')
+        param_dict = {
+            'MID': 'merchantid',
+            'ORDER_ID': 'order1',
+            'TXN_AMOUNT': '1',
+            'CUST_ID': 'email',
+            'INDUSTRY_TYPE_ID': 'Retail',
+            'WEBSITE': 'WEBSTAGING',
+            'CHANNEL_ID': 'WEB',
+            'CALLBACK_URL': 'http://127.0.0.1:8000/handlerequest/',
+        }
+        param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+        return render(request, 'tour/paytm.html', {'param_dict':param_dict})
 
     else:
         return render(request,'index')
-        
+
+@csrf_exempt
+def handlerequest(request):
+    # paytm will send you post request here
+    global checksum
+    form = request.POST
+    response_dict = {}
+    for i in form.keys():
+        response_dict[i] = form[i]
+        if i == 'CHECKSUMHASH':
+            checksum = form[i]
+
+    verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
+    if verify:
+        if response_dict['RESPCODE'] == '01':
+            print('order successful')
+        else:
+            print('order was not successful because' + response_dict['RESPMSG'])
+    return render(request, 'tour/paymentstatus.html', {'response': response_dict})
