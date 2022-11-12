@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Profile
+{% endblock title %}
+
+{% block decorate %}
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/about.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/about_responsive.css' %}">
+{% endblock decorate %}
+
+{% block list %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About Us</a></li>
+    <li><a href="news">News</a></li>
+    <li><a href="contact">Contact</a></li>
+
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+        <li class="active"><a href="{% url 'register' %}">Register</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+{% endblock list %}
+
+{% block list1 %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About Us</a></li>
+    <li><a href="news">News</a></li>
+    <li><a href="contact">Contact</a></li>
+
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+        <li class="active"><a href="{% url 'register' %}">Register</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+{% endblock list1 %}
+
+{% block content %}
+    <!-- Home -->
+
+    <div class="home">
+        <div class="background_image" style="background-image:url({% static 'images/register.jpg' %})"></div>
+    </div>
+
+    <!-- Register -->
+
+    <div class="home_search">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_search_container">
+                        <div class="home_search_title">Your Profile</div>
+                        <div class="home_search_content">
+                            <div style="display:flex;flex-direction:row">
+                                <div style="display:flex;flex-direction:column;width:25%">
+                                    <img src="{{details.avatar.url}}" style="width:100%;margin:0.1%;padding:2%;border-radius:8rem;">
+                                    <div style="color:black;margin:auto;padding-top:5%">
+                                        <h4>{{details.firstname}} {{details.lastname}}</h4>
+                                        <button style="width:50%;background-color:blue;color:white;">Edit</button>
+                                    </div>
+                                </div> 
+                                <div style="width:40%">
+                                    <div class="cards"><b>Username:</b> {{details.username}}</div>
+                                    <div class="cards"><b>Email:</b> {{details.email}}</div>
+                                    <div class="cards"><b>Age:</b> {{details.age}}</div>
+                                    <div class="cards"><b>Aadhar:</b> {{details.aadhar}}</div>
+                                </div>
+                                <div style="width:35%">
+                                    <div class="cards"><b>Name:</b> {{details.firstname}} {{details.lastname}}</div>
+                                    <div class="cards"><b>Mobile:</b> {{details.mobile}}</div>
+                                    <div class="cards"><b>Gender:</b> {{details.gender}}</div>
+                                    <div class="cards"><b>Passport:</b> {{details.passport}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

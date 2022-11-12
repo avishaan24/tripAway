@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Passenger Details
+{% endblock title %}
+
+{% block decorate %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/about.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/about_responsive.css' %}">
+{% endblock decorate %}
+
+{% block list %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About Us</a></li>
+    <li><a href="news">News</a></li>
+    <li><a href="contact">Contact</a></li>
+
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+        <li><a href="{% url 'register' %}">Register</a></li>
+        <li class="active"><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+{% endblock list %}
+
+{% block list1 %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About Us</a></li>
+    <li><a href="news">News</a></li>
+    <li><a href="contact">Contact</a></li>
+
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+        <li><a href="{% url 'register' %}">Register</a></li>
+        <li class="active"><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+{% endblock list1 %}
+
+{% block content %}
+    <!-- Home -->
+
+    <div class="home">
+        <div class="background_image" style="background-image:url({% static 'images/login.jpg' %})"></div>
+    </div>
+
+    <!-- Register -->
+
+    <div class="home_search">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_search_container">
+                        <div class="home_search_title">Login</div>
+                        <div class="home_search_content">
+                            <div>
+                                {% for message in messages %}
+                                <h4 style="color: red;">{{message}}</h4>
+                                {% endfor %}
+                            </div>
+                            <form action="{% url 'payment' %}" method="POST" class="home_search_form" id="home_search_form">
+                                {% csrf_token %}
+                                <div class="d-flex flex-column align-items-start justify-content-lg-between justify-content-start">
+                                    <div style="display:flex;flex-direction:row">
+                                        <div>
+                                            <label for="bid">Booking Id:</label>    
+                                            <input type="text" name="bid" style="disabled:true" value="{{booking.id}}" placeholder="{{booking.id}}" readonly>
+                                        </div>
+                                        <div>
+                                            <label for="num">No.of Adults:</label>
+                                            <input type="text" name="num" style="disabled:true" value="{{booking.persons}}" placeholder="{{booking.persons}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div id="creative">
+                                            {% for sd in no %}
+                                            <div>
+                                                <h4>Passenger {{forloop.counter}}</h4>
+                                                <input type="text" name="name{{forloop.counter}}" class="search_input search_input_1" placeholder="Name" required="required" style="width:24%">
+                                                <input type="text" name="aadhar{{forloop.counter}}" class="search_input search_input_1" placeholder="Aadhar" required="required" style="width:24%">
+                                                <input type="text" name="gender{{forloop.counter}}" class="search_input search_input_1" placeholder="Gender" required="required" style="width:24%">
+                                                <input type="number" name="age{{forloop.counter}}" class="search_input search_input_1" placeholder="Age" required="required" style="width:24%">
+                                            </div>
+                                            {% endfor %}
+                                    </div>
+                                            <input type="submit" class="home_search_button">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+        

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Registration
+{% endblock title %}
+
+{% block decorate %}
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/about.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/about_responsive.css' %}">
+{% endblock decorate %}
+
+{% block list %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About Us</a></li>
+    <li><a href="news">News</a></li>
+    <li><a href="contact">Contact</a></li>
+
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+        <li class="active"><a href="{% url 'register' %}">Register</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+{% endblock list %}
+
+{% block list1 %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About Us</a></li>
+    <li><a href="news">News</a></li>
+    <li><a href="contact">Contact</a></li>
+
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+        <li class="active"><a href="{% url 'register' %}">Register</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+{% endblock list1 %}
+
+{% block content %}
+    <!-- Home -->
+
+    <div class="home">
+        <div class="background_image" style="background-image:url({% static 'images/register.jpg' %})"></div>
+    </div>
+
+    <!-- Register -->
+
+    <div class="home_search">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_search_container">
+                        <div class="home_search_title">Register</div>
+                        <div class="home_search_content">
+                            <div>
+                                {% for message in messages %}
+                                <h4 style="color: red;">{{message}}</h4>
+                                {% endfor %}
+                            </div>
+                            <form action="" method="POST" class="home_search_form" id="home_search_form">
+                                {% csrf_token %}
+                                <div class="d-flex  flex-column align-items-start justify-content-lg-between justify-content-start">
+                                    {{form.username}}
+                                    {% for error in form.username.errors %}
+                                        <small style="color:red; margin-left:2%;">*{{ error|escape }}</small>
+                                    {% endfor %}
+                                    {{form.first_name}}
+                                    {{form.last_name}}
+                                    {{form.email}}
+                                    {{form.password1}}
+                                    {{form.password2}}
+                                    {% for error in form.password2.errors %}
+                                        <small style="color:red;margin-left:2%;">*{{ error|escape }}</small>
+                                    {% endfor %}
+                                    <input type="submit" class="home_search_button">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
