@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = "django-insecure-vptdw1rlg5=ero3&f+9r2%o-9@2tfhnfx79hl$fw5=)4ff!!6s"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'tripAway.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'avin',
+        'NAME': 'django_project',
         'USER': 'root',
-        'PASSWORD': config("PASSWORD"),
+        'PASSWORD': 'rkmeena@12345',
         'HOST':'localhost',
         'PORT':'3306',
     }
