@@ -121,9 +121,9 @@ def __decode__(to_decode, iv, key):
 
 if __name__ == "__main__":
     params = {
-        "MID": "merchantid",
-        "ORDER_ID": "order_id",
-        "CUST_ID": "cust_id",
+        "MID": "ZFQqQS88985919412502",
+        "ORDER_ID": "35554",
+        "CUST_ID": "123",
         "TXN_AMOUNT": "1",
         "CHANNEL_ID": "WEB",
         "INDUSTRY_TYPE_ID": "Retail",

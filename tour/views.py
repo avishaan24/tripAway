@@ -8,7 +8,7 @@ from .models import *
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from .paytm import Checksum
-MERCHANT_KEY = "merchantkey";
+MERCHANT_KEY = "E0c6h8GCaHIvQKvZ";
 from datetime import datetime
 import datetime
 
@@ -41,6 +41,12 @@ def logout_page(request):
 
 def about(request):
     return render(request,'tour/about.html');
+
+def contact(request):
+    return render(request,'tour/contact.html');
+
+def news(request):
+    return render(request,'tour/news.html');
 
 def register(request):
     form=CreateUser()
@@ -95,31 +101,18 @@ def passenger(request,pid):
         messages.error(request,("Logged in first!"))
         return redirect('login')
 
-# def packagebook(request, pid):
-#     package=Packages.objects.get(id=pid)
-#     if request.method == 'POST' and package is not None:
-#         price=int(package.price)*int(request.POST['number'])
-#         # print(package.price, request.POST['number'])
-#         return render(request, 'tour/packagebook.html', {'price': price, 'pid': pid})
-#     else:
-#         return redirect('index')
-
-        
-def payment_initial(request):
+def payment(request):
     if request.method=="POST" and request.user.is_authenticated:
-        # data=[]
-        number=int(request.POST['num'])
-        bid=int(request.POST['bid'])
-        for i in range(1,number+1):
-            p1=Passenger(booking_id=bid,name=request.POST['name'+str(i)],aadhar=request.POST['aadhar'+str(i)],gender=request.POST['gender'+str(i)],age=int(request.POST['age'+str(i)]))
-            p1.save()
-            # data.append({'name': request.POST['name'+str(i)], 'aadhar': request.POST['aadhar'+str(i)], 'gender': request.POST['gender'+str(i)], 'age': request.POST['age'+str(i)]})
-        # print(data)
+        bid=request.POST['bid']
+        booking=Booking.objects.get(id=int(request.POST['bid']))
+        fee=str(booking.amount)
+        name=str(booking.username)
+        # print(type(bid),type(fee),type(name))
         param_dict = {
-            'MID': 'merchantid',
-            'ORDER_ID': 'order1',
-            'TXN_AMOUNT': '1',
-            'CUST_ID': 'email',
+            'MID': 'ZFQqQS88985919412502',
+            'ORDER_ID': bid,
+            'TXN_AMOUNT': fee,
+            'CUST_ID': name,
             'INDUSTRY_TYPE_ID': 'Retail',
             'WEBSITE': 'WEBSTAGING',
             'CHANNEL_ID': 'WEB',
@@ -127,6 +120,20 @@ def payment_initial(request):
         }
         param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
         return render(request, 'tour/paytm.html', {'param_dict':param_dict})
+    else:
+        return render(request,'index')
+        
+def payment_initial(request):
+    if request.method=="POST" and request.user.is_authenticated:
+        number=int(request.POST['num'])
+        bid=int(request.POST['bid'])
+        for i in range(1,number+1):
+            p1=Passenger(booking_id=bid,name=request.POST['name'+str(i)],aadhar=request.POST['aadhar'+str(i)],gender=request.POST['gender'+str(i)],age=int(request.POST['age'+str(i)]))
+            p1.save()
+        book=Booking.objects.get(id=bid)
+        pack=Packages.objects.get(id=book.package_id)
+        data={'book':book,'pack':pack}
+        return render(request,'tour/payment.html',data)
 
     else:
         return render(request,'index')
