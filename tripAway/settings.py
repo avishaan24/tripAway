@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'tripAway.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sheru',
+        'NAME': 'sher',
         'USER': 'root',
         'PASSWORD': config("PASSWORD"),
         'HOST':'localhost',

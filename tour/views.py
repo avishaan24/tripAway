@@ -42,6 +42,16 @@ def logout_page(request):
 def about(request):
     return render(request,'tour/about.html');
 
+def booking_details(request):
+    if request.user.is_authenticated:
+        name=request.user
+        booking=Booking.objects.filter(username=name,paid=True).all()
+        data={'booking':booking}
+        return render(request,'tour/my_bookings.html',data);
+    else:
+        messages.error(request,("Logged in first!"))
+        return redirect('login')
+
 def contact(request):
     return render(request,'tour/contact.html');
 
@@ -153,6 +163,9 @@ def handlerequest(request):
     if verify:
         if response_dict['RESPCODE'] == '01':
             print('order successful')
+            booking=Booking.objects.get(id=int(response_dict['ORDERID']))
+            booking.paid=True
+            booking.save()
         else:
             print('order was not successful because' + response_dict['RESPMSG'])
     return render(request, 'tour/paymentstatus.html', {'response': response_dict})

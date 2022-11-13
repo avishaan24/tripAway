@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    My Bookings
+{% endblock title %}
+
+{% block decorate %}
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/about.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/about_responsive.css' %}">
+{% endblock decorate %}
+
+{% block list %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About Us</a></li>
+    <li><a href="contact">Contact</a></li>
+
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'prof' %}">My Profile</a></li>
+        <li class="active"><a href="{% url 'booking' %}">My Bookings</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+        <li><a href="{% url 'register' %}">Register</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+{% endblock list %}
+
+{% block list1 %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About Us</a></li>
+    <li><a href="contact">Contact</a></li>
+
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'prof' %}">My Profile</a></li>
+        <li class="active"><a href="{% url 'booking' %}">My Bookings</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+        <li><a href="{% url 'register' %}">Register</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+{% endblock list1 %}
+
+{% block content %}
+    <!-- Home -->
+
+    <div class="home">
+        <div class="background_image" style="background-image:url({% static 'images/register_bg.jpeg' %})"></div>
+    </div>
+
+    <!-- Register -->
+
+    <div class="home_search">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_search_container">
+                        <div class="home_search_title">Your Bookings</div>
+                        <div class="home_search_content">
+                              <div class="table-wrapper">
+                                    <table class="fl-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Booking ID</th>
+                                            <th>Amount</th>
+                                            <th>City</th>
+                                            <th>Date of Journey</th>
+                                            <th>Progress</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                           {% if booking %}
+                                                {% for n in booking %}
+                                                <tr>
+                                                      <td>{{n.id}}</td>
+                                                      <td>{{n.amount}}</td>
+                                                      <td>{{n.package.city}}</td>
+                                                      <td>{{n.startdate}}</td>
+                                                      <td><button>Details</button></td>
+ 
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                No bookings Available    
+                                           {% endif %}
+
+                                        <tbody>
+                                    </table>
+                                </div>
+                                <style>
+                                    .table-wrapper{
+                                          margin: 2% 5% 5%;
+                                          box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+                                      }
+                                      
+                                      .fl-table {
+                                          border-radius: 5px;
+                                          font-size: 12px;
+                                          font-weight: normal;
+                                          border: none;
+                                          border-collapse: collapse;
+                                          width: 100%;
+                                          max-width: 100%;
+                                          white-space: nowrap;
+                                          background-color: white;
+                                      }
+                                      
+                                      .fl-table td, .fl-table th {
+                                          text-align: center;
+                                          padding: 8px;
+                                      }
+                                      
+                                      .fl-table td {
+                                          border-right: 1px solid #f8f8f8;
+                                          font-size: 12px;
+                                      }
+                                      
+                                      .fl-table thead th {
+                                          color: #ffffff;
+                                          background: #4FC3A1;
+                                      }
+                                      
+                                      
+                                      .fl-table thead th:nth-child(odd) {
+                                          color: #ffffff;
+                                          background: #324960;
+                                      }
+                                      
+                                      .fl-table tr:nth-child(even) {
+                                          background: #F8F8F8;
+                                      }
+                                </style>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

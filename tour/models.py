@@ -30,7 +30,7 @@ class Packages(models.Model):
 class Booking(models.Model):
     id = models.AutoField(primary_key=True);
     username=models.ForeignKey(User,on_delete=models.CASCADE,default='user')
-    package_id=models.IntegerField()
+    package=models.ForeignKey('Packages',on_delete=models.CASCADE)
     persons=models.IntegerField()
     startdate=models.CharField(max_length=100,default="1/1/2022")
     amount=models.IntegerField(default=0)
@@ -39,7 +39,7 @@ class Booking(models.Model):
     agent_mobile=models.CharField(max_length=20,blank=True,null=True)
 
 class Passenger(models.Model):
-    booking_id=models.IntegerField()
+    booking=models.ForeignKey('Booking',on_delete=models.CASCADE)
     name=models.CharField(max_length=200)
     gender=models.CharField(max_length=200)
     aadhar=models.CharField(max_length=200)

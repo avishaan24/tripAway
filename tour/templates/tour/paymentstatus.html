@@ -10,48 +10,46 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'styles/about_responsive.css' %}">
 {% endblock decorate %}
 
-{% block list %}
-    <li><a href="{% url 'index' %}">Home</a></li>
-    <li><a href="{% url 'about' %}">About Us</a></li>
-    <li><a href="news">News</a></li>
-    <li><a href="contact">Contact</a></li>
-
-    {% if user.is_authenticated %}
-        <li><a href="{% url 'logout' %}">Logout</a></li>
-    {% else %}
-        <li><a href="{% url 'register' %}">Register</a></li>
-        <li class="active"><a href="{% url 'login' %}">Login</a></li>
-    {% endif %}
-{% endblock list %}
-
-{% block list1 %}
-    <li><a href="{% url 'index' %}">Home</a></li>
-    <li><a href="{% url 'about' %}">About Us</a></li>
-    <li><a href="news">News</a></li>
-    <li><a href="contact">Contact</a></li>
-
-    {% if user.is_authenticated %}
-        <li><a href="{% url 'logout' %}">Logout</a></li>
-    {% else %}
-        <li><a href="{% url 'register' %}">Register</a></li>
-        <li class="active"><a href="{% url 'login' %}">Login</a></li>
-    {% endif %}
-{% endblock list1 %}
-
 {% block content %}
-    <div class="container">
-    {{response}}
-    <div class="col my-4">
 
-        <h2>Payment status regarding your order Id {{response.ORDERID}}</h2>
-        {% if response.RESPCODE == '01' %}
-        ORDER SUCCESS
-        {% else %}
-        ORDER FAILURE
-        {% endif%}
-
+    <div class="home">
+        <div class="background_image" style="background-image:url({% static 'images/register_bg.jpeg' %})"></div>
     </div>
 
+    <div class="home_search">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_search_container">
+                        <div class="home_search_title">Payment Details</div>
+                        <div class="home_search_content">
+                            <div style="font-size:large;color:black;"><b>Order Id: </b>{{response.ORDERID}}</div>
+                            <div style="font-size:large;color:black;"><b>Transaction Id: </b>{{response.TXNID}}</div>
+                            <div style="font-size:large;color:black;"><b>Transaction Amount: </b>{{response.TXNAMOUNT}}</div>
+                            <div style="font-size:large;color:black;"><b>Transaction Date:</b> {{response.TXNDATE}}</div>
+                            <div style="font-size:large;color:black;"><b>Bank Name: </b>{{response.BANKNAME}}</div>
+                            <div style="font-size:large;color:black;"><b>Bank Transaction Id: </b>{{response.BANKTXNID}}</div>
+                            <div style="font-size:large;color:black;"><b>Payment Mode: </b>Online</div>
+                            <div style="display:flex;flex-direction:row;">
+                                <h4 style="color:blue">Payment status regarding your order is: </h4>
+                                {% if response.RESPCODE == '01' %}
+                                    <h4 style="color:green">  ORDER SUCCESS</h4>
+                                {% else %}
+                                    <h4 style="color:red">ORDER Failure</h4>
+                                {% endif%}
+                            </div>
+                            {% if response.RESPCODE == '01' %}
+                                <h5 style="color:#ebc63e;;">Thank You! Hope your holiday will full of enjoyment</h5>
+
+                            {% else %}
+                                <h5 style="color:black">OOPS! Try Again</h5>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
 </div>
 
 <script type = "text/javascript" >

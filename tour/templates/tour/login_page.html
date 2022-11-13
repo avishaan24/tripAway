@@ -13,10 +13,11 @@
 {% block list %}
     <li><a href="{% url 'index' %}">Home</a></li>
     <li><a href="{% url 'about' %}">About Us</a></li>
-    <li><a href="news">News</a></li>
     <li><a href="contact">Contact</a></li>
 
     {% if user.is_authenticated %}
+        <li><a href="{% url 'prof' %}">My Profile</a></li>
+        <li><a href="{% url 'booking' %}">My Bookings</a></li>
         <li><a href="{% url 'logout' %}">Logout</a></li>
     {% else %}
         <li><a href="{% url 'register' %}">Register</a></li>
@@ -27,10 +28,11 @@
 {% block list1 %}
     <li><a href="{% url 'index' %}">Home</a></li>
     <li><a href="{% url 'about' %}">About Us</a></li>
-    <li><a href="news">News</a></li>
     <li><a href="contact">Contact</a></li>
 
     {% if user.is_authenticated %}
+        <li><a href="{% url 'prof' %}">My Profile</a></li>
+        <li><a href="{% url 'booking' %}">My Bookings</a></li>
         <li><a href="{% url 'logout' %}">Logout</a></li>
     {% else %}
         <li><a href="{% url 'register' %}">Register</a></li>
