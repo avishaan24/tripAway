@@ -118,10 +118,10 @@
 					<div class="home_search_container">
 						<div class="home_search_title">Search for your trip</div>
 						<div class="home_search_content">
-							<form action="#" class="home_search_form" id="home_search_form">
+							<form action="/search/" method="GET" class="home_search_form" id="home_search_form">
 								<div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
-									<input type="text" class="search_input search_input_1" placeholder="City" required="required">
-									<button class="home_search_button">search</button>
+									<input type="text" class="search_input search_input_1" placeholder="City" required="required" name="search">
+									<button class="home_search_button">Search</button>
 								</div>
 							</form>
 						</div>
@@ -214,6 +214,36 @@
 				</div>
 			</div>
 		</div>
+		<div style="margin:auto;justify-content:center;align-items:center;display:flex;">
+			<a href="{% url 'all' %}"><button class="avi-btn">All Packages</button></a>
+		</div>
+
+		<style>
+		    /* CSS */
+		    .avi-btn {
+			background-color: #c2fbd7;
+			border-radius: 100px;
+			box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+			color: green;
+			cursor: pointer;
+			display: inline-block;
+			font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+			padding: 7px 20px;
+			text-align: center;
+			text-decoration: none;
+			transition: all 250ms;
+			border: 0;
+			font-size: 16px;
+			user-select: none;
+			-webkit-user-select: none;
+			touch-action: manipulation;
+		    }
+		    
+		    .avi-btn:hover {
+			box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+			transform: scale(1.05) rotate(-1deg);
+		    }
+		</style>	
 	</div>
 
 	<!-- Testimonials -->
@@ -288,67 +318,28 @@
 			<div class="row">
 				<div class="col-xl-8">
 					<div class="news_container">
-						
-						<!-- News Post -->
-						<div class="news_post d-flex flex-md-row flex-column align-items-start justify-content-start">
-							<div class="news_post_image"><img src="{% static 'images/news_1.jpg' %}" alt=""></div>
-							<div class="news_post_content">
-								<div class="news_post_date d-flex flex-row align-items-end justify-content-start">
-									<div>02</div>
-									<div>june</div>
-								</div>
-								<div class="news_post_title"><a href="#">Best tips to travel light</a></div>
-								<div class="news_post_category">
-									<ul>
-										<li><a href="#">lifestyle & travel</a></li>
-									</ul>
-								</div>
-								<div class="news_post_text">
-									<p>Pellentesque sit amet elementum ccumsan sit amet mattis eget, tristique at leo. Vivamus massa.Tempor massa et laoreet.</p>
-								</div>
-							</div>
-						</div>
-
-						<!-- News Post -->
-						<div class="news_post d-flex flex-md-row flex-column align-items-start justify-content-start">
-							<div class="news_post_image"><img src="{% static 'images/news_2.jpg' %}" alt=""></div>
-							<div class="news_post_content">
-								<div class="news_post_date d-flex flex-row align-items-end justify-content-start">
-									<div>01</div>
-									<div>june</div>
-								</div>
-								<div class="news_post_title"><a href="#">Best tips to travel light</a></div>
-								<div class="news_post_category">
-									<ul>
-										<li><a href="#">lifestyle & travel</a></li>
-									</ul>
-								</div>
-								<div class="news_post_text">
-									<p>Tempor massa et laoreet malesuada. Pellentesque sit amet elementum ccumsan sit amet mattis eget, tristique at leo.</p>
-								</div>
-							</div>
-						</div>
-
-						<!-- News Post -->
-						<div class="news_post d-flex flex-md-row flex-column align-items-start justify-content-start">
-							<div class="news_post_image"><img src="{% static 'images/news_3.jpg' %}" alt=""></div>
-							<div class="news_post_content">
-								<div class="news_post_date d-flex flex-row align-items-end justify-content-start">
-									<div>29</div>
-									<div>may</div>
-								</div>
-								<div class="news_post_title"><a href="#">Best tips to travel light</a></div>
-								<div class="news_post_category">
-									<ul>
-										<li><a href="#">lifestyle & travel</a></li>
-									</ul>
-								</div>
-								<div class="news_post_text">
-									<p>Vivamus massa.Tempor massa et laoreet malesuada. Aliquam nulla nisl, accumsan sit amet mattis.</p>
-								</div>
-							</div>
-						</div>
-
+											
+											{% for n in news %}
+											<!-- News Post -->
+											<div class="news_post d-flex flex-md-row flex-column align-items-start justify-content-start">
+												<div class="news_post_image"><img src="{{n.photo.url}}" alt=""></div>
+												<div class="news_post_content">
+													<div class="news_post_date d-flex flex-row align-items-end justify-content-start">
+														<div>{{n.date}}</div>
+														<div>{{n.month}}</div>
+													</div>
+													<div class="news_post_title"><a href="#">Best tips to travel light</a></div>
+													<div class="news_post_category">
+														<ul>
+															<li><a href="#">{{n.category}}</a></li>
+														</ul>
+													</div>
+													<div class="news_post_text">
+														<p>{{n.desc}}</p>
+													</div>
+												</div>
+											</div>	
+											{% endfor %}
 					</div>
 				</div>
 

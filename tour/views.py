@@ -16,9 +16,26 @@ import datetime
 from .forms import CreateUser
 
 def index(request):
-    package=Packages.objects.all()
-    data={'package':package}
+    package=Packages.objects.order_by("-id")[:6]
+    news=newsbar.objects.order_by("-id")[:3];
+    data={'package':package,'news':news}
     return render(request, 'tour/home.html',data);
+
+def searchmatch(query,places):
+    if query in places.heading or query in places.sub_title or query in places.city or query in places.desc.lower():
+        return True
+    else:
+        return False
+
+def search(request):
+    query=request.GET.get('search')
+    match=[]
+    package=Packages.objects.all()
+    print(package)
+    for places in package.iterator():
+        if searchmatch(query,places):
+            match.append(places)
+    return render(request, 'tour/all_packages.html',{'package':match});
 
 def login_page(request):
     if request.method=='POST':
@@ -42,6 +59,10 @@ def logout_page(request):
 def about(request):
     return render(request,'tour/about.html');
 
+def packages(request):
+    package=Packages.objects.all()
+    return render(request,'tour/all_packages.html',{'package':package});
+
 def booking_details(request):
     if request.user.is_authenticated:
         name=request.user
@@ -53,10 +74,47 @@ def booking_details(request):
         return redirect('login')
 
 def contact(request):
+    if request.method=="POST":
+        name=request.POST['name']
+        email=request.POST['email']
+        subject=request.POST['subject']
+        message=request.POST['message']
+        contact=Contact(name=name,email=email,subject=subject,message=message)
+        contact.save()
+        messages.success(request,("Your valuable response is submitted"))
     return render(request,'tour/contact.html');
 
-def news(request):
-    return render(request,'tour/news.html');
+def edit(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            print(request.user)
+            use=Customer_detail.objects.get(username=request.user)
+            return render(request,'tour/edit_profile.html',{'use':use});
+        else:
+            messages.error(request,("Logged in first!"))
+            return redirect('login')
+    else:
+        if request.user.is_authenticated:
+            dat=str(request.POST.get('dob'))
+            use=Customer_detail.objects.get(username=request.user)
+            use.firstname = request.POST.get('firstname')
+            use.lastname = request.POST.get('lastname')
+            use.dob = dat
+            use.gender = request.POST.get('gender')
+            use.email = request.POST.get('email')
+            use.mobile = request.POST.get('mobile')
+            use.aadhar = request.POST.get('aadhar')
+            use.passport = request.POST.get('passport')
+            use.avatar=request.POST.get('image')
+            use.save()
+            customer=User.objects.get(username=request.user)
+            customer.firstname = request.POST.get('firstname')
+            customer.lastname = request.POST.get('lastname')
+            customer.email = request.POST.get('email')
+            customer.save()
+            return redirect('prof')
+
+
 
 def register(request):
     form=CreateUser()

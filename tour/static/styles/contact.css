@@ -687,19 +687,9 @@ section
 }
 .search_input_1
 {
-	width: 25%;
-}
-.search_input_2
-{
-	width: 15%;
-}
-.search_input_3
-{
-	width: 15%;
-}
-.search_input_4
-{
-	width: 20%;
+	width: 100%;
+	border-radius: 20px;
+	background-color: blue;
 }
 .search_input::-webkit-input-placeholder
 {

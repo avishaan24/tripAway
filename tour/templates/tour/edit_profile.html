@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Registration
+{% endblock title %}
+
+{% block decorate %}
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/about.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/about_responsive.css' %}">
+{% endblock decorate %}
+
+{% block list %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About Us</a></li>
+    <li><a href="{% url 'contact' %}">Contact</a></li>
+
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'prof' %}">My Profile</a></li>
+        <li><a href="{% url 'booking' %}">My Bookings</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+        <li class="active"><a href="{% url 'register' %}">Register</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+{% endblock list %}
+
+{% block list1 %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About Us</a></li>
+    <li><a href="{% url 'contact' %}">Contact</a></li>
+
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'prof' %}">My Profile</a></li>
+        <li><a href="{% url 'booking' %}">My Bookings</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+        <li class="active"><a href="{% url 'register' %}">Register</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+{% endblock list1 %}
+
+{% block content %}
+    <!-- Home -->
+
+    <div class="home">
+        <div class="background_image" style="background-image:url({% static 'images/register_bg.jpeg' %})"></div>
+    </div>
+
+    <!-- Register -->
+
+    <div class="home_search">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_search_container">
+                        <div class="home_search_title">Register</div>
+                        <div class="home_search_content">
+                              <div class="container-xl px-4 mt-4">
+                                    <!-- Account page navigation-->
+                                    <nav class="nav nav-borders">
+                                        <a class="nav-link active ms-0" href="https://www.bootdey.com/snippets/view/bs5-edit-profile-account-details" target="__blank">Profile</a>
+                                    </nav>
+                                    <hr class="mt-0 mb-4">
+                                    <div class="row">
+                                        <div class="col-xl-4">
+                                          <form method="POST">
+                                                {% csrf_token %}
+                                            <!-- Profile picture card-->
+                                            <div class="card mb-4 mb-xl-0">
+                                                <div class="card-header">Profile Picture</div>
+                                                <div class="card-body text-center">
+                                                    <!-- Profile picture image-->
+                                                    <img id="output" width="200" class="img-account-profile mb-2" src="{{use.avatar.url}}" style="border-radius:8rem;"/>
+                                                    <!-- Profile picture help block-->
+                                                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                                                    <input type="file"  accept="image/*" name="image" id="file"  onchange="loadFile(event)" style="display: none;">
+                                                    <label for="file" style="cursor: pointer;">Upload Image</label>
+                                                    <script>
+                                                      var loadFile = function(event) {
+                                                            var image = document.getElementById('output');
+                                                            image.src = URL.createObjectURL(event.target.files[0]);
+                                                      };
+                                                      </script>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <!-- Account details card-->
+                                            <div class="card mb-4">
+                                                <div class="card-header">Account Details</div>
+                                                <div class="card-body">
+
+                                                        <!-- Form Group (username)-->
+                                                        
+                                                        <div class="mb-3">
+                                                            <label class="small mb-1" for="username">Username (how your name will appear to other users on the site)</label>
+                                                            <input class="form-control" name="username" type="text"  value="{{use.username}}" readonly>
+                                                        </div>
+                                                        <!-- Form Row-->
+                                                        <div class="row gx-3 mb-3">
+                                                            <!-- Form Group (first name)-->
+                                                            <div class="col-md-6">
+                                                                <label class="small mb-1" for="firstname">First name</label>
+                                                                <input class="form-control" name="firstname" type="text" value="{{use.firstname}}">
+                                                            </div>
+                                                            <!-- Form Group (last name)-->
+                                                            <div class="col-md-6">
+                                                                <label class="small mb-1" for="lastname">Last name</label>
+                                                                <input class="form-control" name="lastname" type="text" value="{{use.lastname}}">
+                                                            </div>
+                                                        </div>
+                                                        <!-- Form Row        -->
+                                                        <div class="row gx-3 mb-3">
+                                                            <!-- Form Group (organization name)-->
+                                                            <div class="col-md-6">
+                                                                <label class="small mb-1" for="dob">Date Of Birth</label>
+                                                                <input class="form-control" name="dob" type="date" placeholder="Enter your DOB" value="{{use.date}}">
+                                                            </div>
+                                                            <!-- Form Group (location)-->
+                                                            <div class="col-md-6">
+                                                                <label class="small mb-1" for="gender">Gender</label>
+                                                                <input class="form-control" name="gender" type="text" placeholder="Enter your gender" value="{{use.gender}}">
+                                                            </div>
+                                                        </div>
+                                                        <!-- Form Group (email address)-->
+                                                        <div class="mb-3">
+                                                            <label class="small mb-1" for="email">Email address</label>
+                                                            <input class="form-control" name="email" type="email" placeholder="Enter your email address" value="{{use.email}}">
+                                                        </div>
+                                                        <div class="mb-3"> 
+                                                            <label class="small mb-1" for="mobile">Phone</label>
+                                                            <input class="form-control" name="mobile" type="text" placeholder="Enter your phone number" value="{{use.phone}}">
+                                                        </div>
+                                                        <!-- Form Row-->
+                                                        <div class="row gx-3 mb-3">
+                                                            <!-- Form Group (phone number)-->
+                                                            <div class="col-md-6">
+                                                                <label class="small mb-1" for="passport">Passport</label>
+                                                                <input class="form-control" name="passport" type="text" placeholder="Enter your Passport number" value="{{use.passport}}">
+                                                            </div>
+                                                            <!-- Form Group (birthday)-->
+                                                            <div class="col-md-6">
+                                                                <label class="small mb-1" for="aadhar">Aadhar</label>
+                                                                <input class="form-control" name="aadhar" type="text" name="aadhar" placeholder="Enter your AAdhar number" value="{{use.aadhar}}">
+                                                            </div>
+                                                        </div>
+                                                        <!-- Save changes button-->
+                                                        <input type="submit" class="btn btn-primary" value="Save Changes">
+                                                        {% comment %} <button class="btn btn-primary" type="button">Save changes</button> {% endcomment %}
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% comment %} <form action="" method="POST" class="home_search_form" id="home_search_form">
+
+                                    <input type="submit" class="home_search_button">
+                                </div>
+                            </form> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

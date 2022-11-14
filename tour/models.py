@@ -3,17 +3,17 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 class Customer_detail(models.Model):
-    avatar=models.ImageField(upload_to="pics",blank=True,default='pics/default.png')
+    avatar=models.ImageField(upload_to="pics",blank=True,default='pics/default.jpg')
     username=models.ForeignKey(User,on_delete=models.CASCADE,default='user')
     firstname=models.CharField(max_length=50,default="firstname")
     lastname=models.CharField(max_length=50,default="lastname")
     email=models.CharField(max_length=100,default="email")
-    age=models.IntegerField(null=True)
-    mobile = models.CharField( max_length=13,null=True)
-    address = models.CharField(max_length=200,null=True)
-    passport = models.CharField(max_length=20,null=True)
-    aadhar = models.CharField(max_length=20,null=True)
-    gender = models.CharField(max_length=20,null=True)
+    dob=models.CharField(max_length=20,null=True)
+    mobile = models.CharField( max_length=20,null=True, default="+91 00000-00000")
+    address = models.CharField(max_length=200,null=True,default="")
+    passport = models.CharField(max_length=20,null=True,default="")
+    aadhar = models.CharField(max_length=20,null=True,default="")
+    gender = models.CharField(max_length=20,null=True,default="")
     
 
 class Packages(models.Model):
@@ -45,11 +45,20 @@ class Passenger(models.Model):
     aadhar=models.CharField(max_length=200)
     age=models.IntegerField()
 
+class newsbar(models.Model):
+    id=models.AutoField(primary_key=True)
+    photo=models.ImageField(upload_to="pics",blank=True,default='pics/default.png')
+    date=models.IntegerField()
+    month=models.CharField(max_length=25)
+    heading=models.CharField(max_length=100)
+    category=models.CharField(max_length=100)
+    desc=models.CharField(max_length=1000)   
+
 class Contact(models.Model):
+    id=models.AutoField(primary_key=True)
     name=models.CharField(max_length=200)
     email=models.CharField(max_length=200)
     subject=models.CharField(max_length=200)
     message=models.CharField(max_length=1000)
-    
 
 

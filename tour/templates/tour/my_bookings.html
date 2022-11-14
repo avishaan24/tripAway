@@ -54,11 +54,11 @@
             <div class="row">
                 <div class="col">
                     <div class="home_search_container">
-                        <div class="home_search_title">Your Bookings</div>
-                        <div class="home_search_content">
-                              <div class="table-wrapper">
-                                    <table class="fl-table">
-                                        <thead>
+                        <div class="home_search_title" style="background-color:#f6d0d7;">Your Bookings</div>
+                        <div class="home_search_content" style="background-color:#f6d0d7;">
+                            <div class="table-wrapper">
+                                <table class="fl-table" id="table">
+                                    <thead>
                                         <tr>
                                             <th>Booking ID</th>
                                             <th>Amount</th>
@@ -66,25 +66,104 @@
                                             <th>Date of Journey</th>
                                             <th>Progress</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                           {% if booking %}
-                                                {% for n in booking %}
-                                                <tr>
-                                                      <td>{{n.id}}</td>
-                                                      <td>{{n.amount}}</td>
-                                                      <td>{{n.package.city}}</td>
-                                                      <td>{{n.startdate}}</td>
-                                                      <td><button>Details</button></td>
- 
-                                                </tr>
-                                                {% endfor %}
-                                            {% else %}
-                                                No bookings Available    
-                                           {% endif %}
+                                    </thead>
+                                    <tbody>
+                                        {% if booking %}
+                                        {% for n in booking %}
+                                        <tr style="color:black;">
+                                            <td>{{n.id}}</td>
+                                            <td>{{n.amount}}</td>
+                                            <td>{{n.package.city}}</td>
+                                            <td>{{n.startdate}}</td>
+                                            <td><button id="viewBtn{{n.id}}" class="avi-btn">Details</button></td>
 
+                                            <style>
+                                                /* CSS */
+                                                .avi-btn {
+                                                  background-color: #c2fbd7;
+                                                  border-radius: 100px;
+                                                  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+                                                  color: green;
+                                                  cursor: pointer;
+                                                  display: inline-block;
+                                                  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+                                                  padding: 7px 20px;
+                                                  text-align: center;
+                                                  text-decoration: none;
+                                                  transition: all 250ms;
+                                                  border: 0;
+                                                  font-size: 16px;
+                                                  user-select: none;
+                                                  -webkit-user-select: none;
+                                                  touch-action: manipulation;
+                                                }
+                                                
+                                                .avi-btn:hover {
+                                                  box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+                                                  transform: scale(1.05) rotate(-1deg);
+                                                }
+                                            </style>
+                                        </tr>
+                                        {% endfor %}
+                                        {% else %}
+                                        No bookings Available    
+                                           {% endif %}
                                         <tbody>
                                     </table>
+                                    {% for n in booking %}
+                                        <div class="container ppover fl-table" style="display: none;background-color:#c7d9e6;color:green;"  id="popover{{n.id}}">
+                                            <div style="color:blue;margin:auto;align-items:center;justify-content:center;display:flex;">
+                                                <h3>{{n.package.heading}}</h3>
+                                            </div>
+                                            <div style="display:flex;flex-direction:row;">
+                                                <img src="{{n.package.img.url}}" alt="" style="width:40%;height:50%;margin:2%;">
+                                                <div>
+                                                    <h5 style="color:black;"><b>Booking Details: </b></h5>
+                                                    <h6>Package City: {{n.package.city}}</h6>
+                                                    <h6>Journey Start Date: {{n.startdate}}</h6>
+                                                    {% if n.agent == None %}
+                                                    <h6>Booking status: Pending</h6>
+                                                    {% else %}
+                                                    <h6>Booking status: Accepted</h6>
+                                                    <h6>Agent name: {{n.agent}}</h6>
+                                                    <h6>Agent mobile: {{n.agent_mobile}}</h6>
+                                                    {% endif %}
+                                                    <button id="closeBtn{{n.id}}" class="avi">Close</button>
+                                                    <style>
+                                                        .avi {
+                                                          background: linear-gradient(to bottom right, #EF4765, #FF9A5A);
+                                                          border: 0;
+                                                          border-radius: 12px;
+                                                          color: #FFFFFF;
+                                                          cursor: pointer;
+                                                          display: inline-block;
+                                                          font-family: -apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+                                                          font-size: 16px;
+                                                          font-weight: 500;
+                                                          line-height: 2.5;
+                                                          outline: transparent;
+                                                          padding: 0 1rem;
+                                                          text-align: center;
+                                                          text-decoration: none;
+                                                          transition: box-shadow .2s ease-in-out;
+                                                          user-select: none;
+                                                          -webkit-user-select: none;
+                                                          touch-action: manipulation;
+                                                          white-space: nowrap;
+                                                        }
+                                                        
+                                                        .avi:not([disabled]):focus {
+                                                          box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+                                                        }
+                                                        
+                                                        .avi:not([disabled]):hover {
+                                                          box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+                                                        }
+                                                    </style>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
                                 </div>
                                 <style>
                                     .table-wrapper{
@@ -128,7 +207,34 @@
                                       .fl-table tr:nth-child(even) {
                                           background: #F8F8F8;
                                       }
+                                      .ppover{
+                                        {% comment %} position:fixed; {% endcomment %}
+                                        width:100%;
+                                        height:100%;
+                                        box-shadow: 1px 1px 8px 5px #d6d4d4;
+                                    }
                                 </style>
+
+
+                                <script>
+                                    {% for n in booking %}
+                                    btn{{n.id}} = document.getElementById("viewBtn{{n.id}}")
+                                    console.log("viewBtn{{n.id}}")
+                                    btn{{n.id}}.addEventListener('click', popUP{{n.id}})
+                                    function popUP{{n.id}}(event){
+                                        console.log(popUP{{n.id}})
+                                        document.getElementById("popover{{n.id}}").style.display = "block"
+                                        document.getElementById("table").style.display = "none"
+                                    }
+                                    
+                                    btn2{{n.id}} = document.getElementById("closeBtn{{n.id}}")
+                                    btn2{{n.id}}.addEventListener('click', hideUp{{n.id}})
+                                    function hideUp{{n.id}}(event){
+                                        document.getElementById("popover{{n.id}}").style.display = "none"
+                                        document.getElementById("table").style=""
+                                    }
+                                    {% endfor %}
+                                </script>
                         </div>
                     </div>
                 </div>
