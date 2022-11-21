@@ -13,7 +13,7 @@
 {% block list %}
     <li><a href="{% url 'index' %}">Home</a></li>
     <li><a href="{% url 'about' %}">About Us</a></li>
-    <li><a href="contact">Contact</a></li>
+    <li><a href="{% url 'contact' %}">Contact</a></li>
 
     {% if user.is_authenticated %}
         <li><a href="{% url 'prof' %}">My Profile</a></li>

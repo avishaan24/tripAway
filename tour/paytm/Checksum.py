@@ -2,6 +2,9 @@ import base64
 import string
 import random
 import hashlib
+import environ
+env = environ.Env()
+environ.Env.read_env()
 
 from Crypto.Cipher import AES
 
@@ -121,7 +124,7 @@ def __decode__(to_decode, iv, key):
 
 if __name__ == "__main__":
     params = {
-        "MID": "ZFQqQS88985919412502",
+        "MID": env("MID"),
         "ORDER_ID": "35554",
         "CUST_ID": "123",
         "TXN_AMOUNT": "1",

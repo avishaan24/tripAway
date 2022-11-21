@@ -689,7 +689,7 @@ section
 {
 	width: 100%;
 	border-radius: 20px;
-	background-color: blue;
+	background-color:#d7d7f7;
 }
 .search_input::-webkit-input-placeholder
 {
