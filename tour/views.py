@@ -8,7 +8,10 @@ from .models import *
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from .paytm import Checksum
-MERCHANT_KEY = "E0c6h8GCaHIvQKvZ";
+import environ
+env = environ.Env()
+environ.Env.read_env()
+MERCHANT_KEY=env('MERCHANT_KEY');
 from datetime import datetime
 import datetime
 
@@ -16,7 +19,7 @@ import datetime
 from .forms import CreateUser
 
 def index(request):
-    package=Packages.objects.order_by("-id")[:6]
+    package=Packages.objects.order_by("id")[:6]
     news=newsbar.objects.order_by("-id")[:3];
     data={'package':package,'news':news}
     return render(request, 'tour/home.html',data);
@@ -105,7 +108,7 @@ def edit(request):
             use.mobile = request.POST.get('mobile')
             use.aadhar = request.POST.get('aadhar')
             use.passport = request.POST.get('passport')
-            use.avatar=request.POST.get('image')
+            # use.avatar=request.POST.get('image')
             use.save()
             customer=User.objects.get(username=request.user)
             customer.firstname = request.POST.get('firstname')
@@ -177,7 +180,7 @@ def payment(request):
         name=str(booking.username)
         # print(type(bid),type(fee),type(name))
         param_dict = {
-            'MID': 'ZFQqQS88985919412502',
+            'MID': env('MID'),
             'ORDER_ID': bid,
             'TXN_AMOUNT': fee,
             'CUST_ID': name,

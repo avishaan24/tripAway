@@ -19,5 +19,4 @@ urlpatterns = [
     path('paymentdetails/',views.payment,name='checkout'),
     path('payment/',views.payment_initial,name='payment'),
     path('handlerequest/',views.handlerequest,name='handlerequest')
-    # path('package/<int:pid>',views.packagebook,name='packagebook'),
 ]
